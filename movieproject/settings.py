@@ -128,3 +128,5 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     ".vercel.app",
 ]
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
