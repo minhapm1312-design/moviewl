@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Form</title>
+    <link rel="stylesheet" href="{% static 'movies/style.css' %}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎬 Add Movie</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Title</label>
+        {{ form.title }}
+
+        <label>Genre</label>
+        {{ form.genre }}
+
+        <label>Watch Status</label>
+        {{ form.watch_status }}
+
+        <!-- Hidden rating field -->
+        {{ form.rating }}
+
+        <!-- STAR RATING -->
+        <div id="ratingBox">
+
+            <label>Rating</label>
+
+            <div class="star-rating">
+
+                <span class="star" onclick="setRating(1)">★</span>
+                <span class="star" onclick="setRating(2)">★</span>
+                <span class="star" onclick="setRating(3)">★</span>
+                <span class="star" onclick="setRating(4)">★</span>
+                <span class="star" onclick="setRating(5)">★</span>
+
+            </div>
+
+        </div>
+
+        <!-- REVIEW -->
+        <div id="reviewBox">
+
+            <label>Review</label>
+            {{ form.review }}
+
+        </div>
+
+        <button type="submit" class="btn">Save Movie</button>
+
+        <a href="/" class="btn">Back</a>
+
+    </form>
+
+</div>
+
+<script>
+
+function setRating(value) {
+
+    document.getElementById("id_rating").value = value;
+
+    const stars = document.querySelectorAll(".star");
+
+    stars.forEach((star, index) => {
+
+        if (index < value) {
+            star.classList.add("active");
+        } else {
+            star.classList.remove("active");
+        }
+
+    });
+
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const watchStatus = document.getElementById("id_watch_status");
+
+    function toggleFields() {
+
+        const ratingBox = document.getElementById("ratingBox");
+        const reviewBox = document.getElementById("reviewBox");
+
+        if (watchStatus.value === "watched") {
+
+            ratingBox.style.display = "block";
+            reviewBox.style.display = "block";
+
+        } else {
+
+            ratingBox.style.display = "none";
+            reviewBox.style.display = "none";
+
+            document.getElementById("id_rating").value = 0;
+
+        }
+
+    }
+
+    watchStatus.addEventListener("change", toggleFields);
+
+    toggleFields();
+
+});
+
+</script>
+
+</body>
+</html>

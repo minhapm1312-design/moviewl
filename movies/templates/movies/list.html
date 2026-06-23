@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Movies</title>
+    <link rel="stylesheet" href="{% static 'movies/style.css' %}">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎬 {{ request.user.username }}'s Watchlist</h1>
+
+<a class="btn" href="/add/">+ Add Movie</a>
+<a class="btn btn-danger" href="/logout/">Logout</a>
+
+<hr>
+
+{% for movie in movies %}
+
+<div class="card">
+
+    <h2>{{ movie.title }}</h2>
+
+    <p><b>Genre:</b> {{ movie.get_genre_display }}</p>
+   <p>
+    <b>Rating:</b>
+
+    {% for i in "12345" %}
+
+        {% if forloop.counter <= movie.rating %}
+
+            ⭐
+
+        {% else %}
+
+            ☆
+
+        {% endif %}
+
+    {% endfor %}
+
+</p>
+    <p><b>Status:</b> {{ movie.get_watch_status_display }}</p>
+    <p><b>Review:</b> {{ movie.review }}</p>
+
+    <a class="btn" href="/edit/{{ movie.id }}/">Edit</a>
+    <a class="btn btn-danger" href="/delete/{{ movie.id }}/">Delete</a>
+
+</div>
+
+{% empty %}
+<p>No movies yet 🎬</p>
+{% endfor %}
+
+</div>
+
+</body>
+</html>
